@@ -12,12 +12,12 @@ services:
     ports:
       - 27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: tipi
-      MONGO_INITDB_ROOT_PASSWORD: tipi
-      MONGO_INITDB_DATABASE: tipidb
+      MONGO_INITDB_ROOT_USERNAME: qhld
+      MONGO_INITDB_ROOT_PASSWORD: qhld
+      MONGO_INITDB_DATABASE: qhlddb
     volumes:
       - ./mongo-init.js.example:/docker-entrypoint-initdb.d/mongo-init.js
-      - tipi-vol-mongo:/data/db
+      - qhld-vol-mongo:/data/db
 
   mongo-express:
     image: mongo-express:latest
@@ -27,12 +27,12 @@ services:
       - ${MONGO_EXPRESS_PORT}:8081
     environment:
       ME_CONFIG_MONGODB_SERVER: mongo
-      ME_CONFIG_MONGODB_ADMINUSERNAME: tipi
-      ME_CONFIG_MONGODB_ADMINPASSWORD: tipi
-      ME_CONFIG_BASICAUTH_USERNAME: tipi
-      ME_CONFIG_BASICAUTH_PASSWORD: tipi
+      ME_CONFIG_MONGODB_ADMINUSERNAME: qhld
+      ME_CONFIG_MONGODB_ADMINPASSWORD: qhld
+      ME_CONFIG_BASICAUTH_USERNAME: qhld
+      ME_CONFIG_BASICAUTH_PASSWORD: qhld
 
-  tipi-engine:
+  qhld-engine:
     build:
       context: ${ENGINE_PATH}
       dockerfile: Dockerfile-dev
@@ -45,7 +45,7 @@ services:
     depends_on:
       - mongo
 
-  tipi-backend:
+  qhld-backend:
     build:
       context: ${BACKEND_PATH}
       dockerfile: Dockerfile-dev
@@ -61,24 +61,7 @@ services:
       - mongo
     command: gunicorn --bind 0.0.0.0:5000 --access-logfile - tipi_backend.wsgi:app --reload
 
-  tipi-frontend:
-    build:
-      context: ${FRONTEND_PATH}
-      dockerfile: Dockerfile-dev
-    container_name: ${PROJECT_NAME}-frontend
-    restart: unless-stopped
-    env_file:
-      - ${FRONTEND_PATH}/.env
-    volumes:
-      - ${FRONTEND_PATH}:/app
-      - /app/node_modules
-    command: npm run dev -- --host
-    ports:
-      - ${FRONTEND_PORT}:5173
-    depends_on:
-      - tipi-backend
-
-  tipi-tasks:
+  qhld-tasks:
     build:
       context: ${TASKS_PATH}
       dockerfile: Dockerfile-dev
@@ -94,4 +77,4 @@ services:
     user: "1000:1000"
 
 volumes:
-  tipi-vol-mongo:
+  qhld-vol-mongo:

@@ -18,10 +18,10 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-      - tipi-mongo:/data/db
+      - qhld-mongo:/data/db
 
-  tipi-engine:
-    image: politicalwatch/tipi-engine:${BRANCH}
+  qhld-engine:
+    image: politicalwatch/qhld-engine:${BRANCH}
     container_name: ${PROJECT_NAME}-engine
     restart: unless-stopped
     env_file:
@@ -32,8 +32,8 @@ services:
     depends_on:
       - mongo
 
-  tipi-backend:
-    image: politicalwatch/tipi-backend:${BRANCH}
+  qhld-backend:
+    image: politicalwatch/qhld-backend:${BRANCH}
     container_name: ${PROJECT_NAME}-backend
     restart: unless-stopped
     env_file:
@@ -45,8 +45,8 @@ services:
     depends_on:
       - mongo
 
-  tipi-tasks:
-    image: politicalwatch/tipi-tasks:${BRANCH}
+  qhld-tasks:
+    image: politicalwatch/qhld-tasks:${BRANCH}
     container_name: ${PROJECT_NAME}-tasks
     restart: unless-stopped
     env_file:
@@ -57,4 +57,4 @@ services:
       - mongo
 
 volumes:
-  tipi-mongo:
+  qhld-mongo:
