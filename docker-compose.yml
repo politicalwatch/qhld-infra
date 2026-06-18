@@ -55,6 +55,7 @@ services:
       - ${BACKEND_PATH}/.env
     volumes:
       - ${BACKEND_PATH}:/app
+      - /app/.venv
     ports:
       - ${BACKEND_PORT}:5000
     depends_on:
