@@ -42,6 +42,7 @@ services:
       - ${ENGINE_PATH}/.env
     volumes:
       - ${ENGINE_PATH}:/app
+      - /app/.venv
     depends_on:
       - mongo
 
@@ -72,10 +73,12 @@ services:
       - ${TASKS_PATH}/.env
     volumes:
       - ${TASKS_PATH}:/app
+      - /app/.venv
     depends_on:
       - redis
       - mongo
     user: "1000:1000"
+    command: celery -A tipi_tasks worker -B -l info
 
 volumes:
   qhld-vol-mongo:
