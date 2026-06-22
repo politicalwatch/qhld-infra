@@ -61,7 +61,7 @@ services:
       - ${BACKEND_PORT}:5000
     depends_on:
       - mongo
-    command: gunicorn --bind 0.0.0.0:5000 --access-logfile - tipi_backend.wsgi:app --reload
+    command: uvicorn tipi_backend.wsgi:app --host 0.0.0.0 --port 5000 --reload --proxy-headers --forwarded-allow-ips '*'
 
   qhld-tasks:
     build:
